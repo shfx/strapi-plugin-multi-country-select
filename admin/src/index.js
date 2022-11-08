@@ -41,7 +41,7 @@ export default {
                 },
                 placeholder: {
                   id: getTrad('multi-country-select.extra-options.placeholder'),
-                  defaultMessage: 'Ex:\nMN:MOON:\nMRS:MARS\nNEP:NEPTUNE',
+                  defaultMessage: 'Ex:\nMN:MOON\nMRS:MARS\nNEP:NEPTUNE',
                 },
               },
             ],
