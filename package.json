@@ -1,26 +1,27 @@
 {
-    "name": "strapi-plugin-country-select",
-    "description": "A strapi custom field for selecting any country based on the ISO 3166-1 country code standard.",
+    "name": "strapi-plugin-multi-country-select",
+    "description": "A strapi custom field for selecting multiple countries based on the ISO 3166-1 country code standard.",
     "keywords": [
         "strapi",
         "strapi-plugin",
         "custom-fields",
-        "country"
+        "country",
+        "multi-select"
     ],
     "version": "1.0.0",
     "strapi": {
-        "name": "country-select",
-        "description": "Country Select custom field",
+        "name": "multi-country-select",
+        "description": "Multiple Countries Select custom field",
         "kind": "plugin",
-        "displayName": "Country Select"
+        "displayName": "Multi-Countries Select"
     },
     "dependencies": {
         "i18n-iso-countries": "^7.5.0"
     },
     "author": {
-        "name": "Chris Ebert",
-        "email": "chris.ebert.dev@gmail.com",
-        "url": "https://chris.ebert.dev"
+        "name": "Zaydme",
+        "email": "zaydme8@gmail.com",
+        "url": "https://zayd.dev"
     },
     "license": "MIT",
     "peerDependencies": {
@@ -28,6 +29,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/ChrisEbert/strapi-plugin-country-select.git"
+        "url": "https://github.com/Zaydme/strapi-plugin-multi-country-select.git"
     }
 }

@@ -3,8 +3,8 @@ const plugin = require('../admin/src/pluginId')
 
 module.exports = ({ strapi }) => {
     strapi.customFields.register({
-        name: 'country',
+        name: 'countries',
         plugin,
-        type: 'string',
+        type: 'json',
     });
 };
