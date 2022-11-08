@@ -51,7 +51,7 @@ const CountriesSelect = ({
       }}
       placeholder={placeholder}
       multi
-      value={JSON.parse(value)}
+      value={JSON.parse(value || '[]')}
       withTags>
       {[
         ...(attribute['extra-options'].map((extraOption) =>
