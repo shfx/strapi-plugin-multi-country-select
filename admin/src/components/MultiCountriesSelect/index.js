@@ -29,54 +29,51 @@ const CountriesSelect = ({
   }, [value])
 
   return (
-    <>
-      {labelAction}
-      <Select
-        name={name}
-        id={name}
-        label={formatMessage(intlLabel)}
-        error={error}
-        disabled={disabled}
-        required={required}
-        hint={description && formatMessage(description)}
-        onChange={(v) => {
-          if (v.includes('ALL')) {
-            v = ['ALL']
-          }
-          onChange({
-            target: {
-              name: name,
-              value: JSON.stringify(v.filter(Boolean)),
-              type: attribute.type,
-            },
-          })
-        }}
-        placeholder={placeholder}
-        multi
-        value={JSON.parse(value)}
-        withTags>
-        {[
-          ...(attribute['extra-options'].map((extraOption) =>
-            extraOption.split(':'),
-          ) || []),
-          ...Object.entries(parsedOptions),
-          ,
-        ].map(([countryCode, countryName]) => (
-          <Option
-            value={countryCode}
-            key={countryCode}
-            style={{
-              opacity: countryCode !== 'ALL' && allIsSelected ? 0.5 : 1,
-              cursor:
-                countryCode !== 'ALL' && allIsSelected
-                  ? 'not-allowed'
-                  : 'pointer',
-            }}>
-            {countryName}
-          </Option>
-        ))}
-      </Select>
-    </>
+    <Select
+      name={name}
+      id={name}
+      label={formatMessage(intlLabel)}
+      error={error}
+      disabled={disabled}
+      required={required}
+      hint={description && formatMessage(description)}
+      onChange={(v) => {
+        if (v.includes('ALL')) {
+          v = ['ALL']
+        }
+        onChange({
+          target: {
+            name: name,
+            value: JSON.stringify(v.filter(Boolean)),
+            type: attribute.type,
+          },
+        })
+      }}
+      placeholder={placeholder}
+      multi
+      value={JSON.parse(value)}
+      withTags>
+      {[
+        ...(attribute['extra-options'].map((extraOption) =>
+          extraOption.split(':'),
+        ) || []),
+        ...Object.entries(parsedOptions),
+        ,
+      ].map(([countryCode, countryName]) => (
+        <Option
+          value={countryCode}
+          key={countryCode}
+          style={{
+            opacity: countryCode !== 'ALL' && allIsSelected ? 0.5 : 1,
+            cursor:
+              countryCode !== 'ALL' && allIsSelected
+                ? 'not-allowed'
+                : 'pointer',
+          }}>
+          {countryName}
+        </Option>
+      ))}
+    </Select>
   )
 }
 
