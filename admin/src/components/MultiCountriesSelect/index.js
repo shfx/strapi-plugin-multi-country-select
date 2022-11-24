@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { Select, Option } from '@strapi/design-system/Select'
 import { useIntl } from 'react-intl'
@@ -22,11 +22,57 @@ const CountriesSelect = ({
   const { formatMessage, messages } = useIntl()
   const parsedOptions = JSON.parse(messages[getTrad('countries')])
 
+  const possibleOptions = useMemo(() => {
+    return [
+      ...(attribute['extra-options'] || [])
+        .map((option) => {
+          const [label, value] = [...option.split(':'), option]
+          if (!label || !value) return null
+          return { label, value }
+        })
+        .filter(Boolean),
+      ...Object.entries(parsedOptions).map(([value, label]) => ({
+        label,
+        value,
+      })),
+    ]
+  }, [attribute])
+
+  const sanitizedValue = useMemo(() => {
+    let parsedValue
+    try {
+      parsedValue = JSON.parse(value || '[]')
+    } catch (e) {
+      parsedValue = []
+    }
+    return Array.isArray(parsedValue)
+      ? parsedValue.filter((val) =>
+          possibleOptions.some((option) => option.value === val),
+        )
+      : []
+  }, [value, possibleOptions])
+
+  const handleChange = (val) => {
+    onChange({
+      target: {
+        name,
+        value: JSON.stringify(val),
+        type: attribute.type,
+      },
+    })
+  }
+
   useEffect(() => {
     value.indexOf('ALL') !== -1
       ? setAllIsSelected(true)
       : setAllIsSelected(false)
   }, [value])
+
+  useEffect(() => {
+    if (JSON.stringify(JSON.parse(value)) !== JSON.stringify(sanitizedValue)) {
+      handleChange(sanitizedValue)
+    }
+  }, [sanitizedValue])
 
   return (
     <Select
@@ -41,36 +87,22 @@ const CountriesSelect = ({
         if (v.includes('ALL')) {
           v = ['ALL']
         }
-        onChange({
-          target: {
-            name: name,
-            value: JSON.stringify(v.filter(Boolean)),
-            type: attribute.type,
-          },
-        })
+        handleChange(v.filter(Boolean))
       }}
       placeholder={placeholder}
       multi
-      value={JSON.parse(value || '[]')}
+      value={sanitizedValue}
       withTags>
-      {[
-        ...(attribute['extra-options'].map((extraOption) =>
-          extraOption.split(':'),
-        ) || []),
-        ...Object.entries(parsedOptions),
-        ,
-      ].map(([countryCode, countryName]) => (
+      {possibleOptions.map(({ label, value }) => (
         <Option
-          value={countryCode}
-          key={countryCode}
+          value={value}
+          key={value}
           style={{
-            opacity: countryCode !== 'ALL' && allIsSelected ? 0.5 : 1,
+            opacity: label !== 'ALL' && allIsSelected ? 0.5 : 1,
             cursor:
-              countryCode !== 'ALL' && allIsSelected
-                ? 'not-allowed'
-                : 'pointer',
+              value !== 'ALL' && allIsSelected ? 'not-allowed' : 'pointer',
           }}>
-          {countryName}
+          {label}
         </Option>
       ))}
     </Select>
