@@ -30,8 +30,5 @@
     "repository": {
         "type": "git",
         "url": "https://github.com/Zaydme/strapi-plugin-multi-country-select.git"
-    },
-    "publishConfig": {
-        "registry": "https://npm.pkg.github.com"
     }
 }
