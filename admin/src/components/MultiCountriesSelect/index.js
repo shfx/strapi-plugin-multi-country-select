@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from 'react'
 import PropTypes from 'prop-types'
-import { Select, Option } from '@strapi/design-system/Select'
+import { MultiSelect, MultiSelectOption } from '@strapi/design-system'
 import { useIntl } from 'react-intl'
 import getTrad from '../../utils/getTrad'
 
@@ -69,13 +69,16 @@ const CountriesSelect = ({
   }, [value])
 
   useEffect(() => {
-    if (JSON.stringify(JSON.parse(value)) !== JSON.stringify(sanitizedValue)) {
+    if (
+      value &&
+      JSON.stringify(JSON.parse(value)) !== JSON.stringify(sanitizedValue)
+    ) {
       handleChange(sanitizedValue)
     }
   }, [sanitizedValue])
 
   return (
-    <Select
+    <MultiSelect
       name={name}
       id={name}
       label={formatMessage(intlLabel)}
@@ -94,7 +97,7 @@ const CountriesSelect = ({
       value={sanitizedValue}
       withTags>
       {possibleOptions.map(({ label, value }) => (
-        <Option
+        <MultiSelectOption
           value={value}
           key={value}
           style={{
@@ -103,9 +106,9 @@ const CountriesSelect = ({
               value !== 'ALL' && allIsSelected ? 'not-allowed' : 'pointer',
           }}>
           {label}
-        </Option>
+        </MultiSelectOption>
       ))}
-    </Select>
+    </MultiSelect>
   )
 }
 
